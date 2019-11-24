@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "axios": "^0.19.0",
+    "querystring": "^0.2.0"
+  },
+  "name": "uptobox-api",
+  "description": "A Node module implementing the official API of Uptobox.com",
+  "version": "1.0.0",
+  "main": "uptobox-api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vic-blt/uptobox-api.git"
+  },
+  "keywords": [
+    "uptobox",
+    "api"
+  ],
+  "author": "vic-blt",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/vic-blt/uptobox-api/issues"
+  },
+  "homepage": "https://github.com/vic-blt/uptobox-api#readme"
+}
