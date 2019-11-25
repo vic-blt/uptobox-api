@@ -5,7 +5,7 @@
   },
   "name": "uptobox-api",
   "description": "A Node module implementing the official API of Uptobox.com",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "uptobox-api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -31,7 +31,14 @@ Retrieve your API token from your Uptobox account : [How to find my API token ?]
       file_code: file_code
   })).data.data.streamLinks;
   ```
+  
+- See [Uptobox-CLI](https://github.com/vic-blt/uptobox-cli)
 
 ## Documentations
 
 - [Uptobox API Docs](https://docs.uptobox.com/)
+
+## Dependencies
+
+- [querystring](https://www.npmjs.com/package/querystring)
+- [axios](https://www.npmjs.com/package/axios)
