@@ -53,7 +53,7 @@ let getDownloadLink = options => axios.get(`${urls.download}?${querystring.strin
 
 let getStreamingLink = options => axios.get(`${urls.stream}?${querystring.stringify(options)}`);
 
-let listFiles = options => axios.get(`${urls.files}?${querystring.stringify(options)}`);
+let list = options => axios.get(`${urls.files}?${querystring.stringify(options)}`);
 
 let updateFileProperties = ({token, file_code, new_name, description, password, public}) => axios({
     method: 'PATCH',
@@ -109,4 +109,4 @@ let deleteFolder = (token, fld_id) => axios({
     data: {token, fld_id}
 });
 
-module.exports = { addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, listFiles, updateFileProperties, updateFilesPublicProperty, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder, getStreamingLink };
+module.exports = { addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, list, updateFileProperties, updateFilesPublicProperty, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder, getStreamingLink };
