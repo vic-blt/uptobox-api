@@ -12,8 +12,8 @@ const urls = {
     download: 'https://uptobox.com/api/link'
 }
 
-let addFile = (url, xfss) => axios.post(url, null, {
-    headers: {'Cookie': xfss},
+let addFile = (url, xfss) => axios.post(`${url}?add-to-account`, null, {
+    headers: {'Cookie': `xfss=${xfss}`},
     withCredentials: true
 });
 
