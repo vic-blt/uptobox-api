@@ -8,6 +8,7 @@ const urls = {
     lock:     'https://uptobox.com/api/user/securityLock',
     convert:  'https://uptobox.com/api/user/requestPremium',
     voucher:  'https://uptobox.com/api/user/createVoucher',
+    pin:      'https://uptobox.com/api/user/pin/validate',
     stream:   'https://uptobox.com/api/streaming',
     download: 'https://uptobox.com/api/link'
 };
@@ -52,6 +53,8 @@ let createVoucher = (token, time, quantity) => axios({
 let getDownloadLink = options => axios.get(`${urls.download}?${querystring.stringify(options)}`);
 
 let getStreamingLink = options => axios.get(`${urls.stream}?${querystring.stringify(options)}`);
+
+let validatePin = (token, pin) => axios.post(`${urls.pin}?token=${token}`, {pin});
 
 let list = options => axios.get(`${urls.files}?${querystring.stringify(options)}`);
 
@@ -109,4 +112,4 @@ let deleteFolder = (token, fld_id) => axios({
     data: {token, fld_id}
 });
 
-module.exports = { addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder };
+module.exports = { addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, validatePin, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder };
