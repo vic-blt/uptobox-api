@@ -10,7 +10,7 @@ const urls = {
     voucher:  'https://uptobox.com/api/user/createVoucher',
     stream:   'https://uptobox.com/api/streaming',
     download: 'https://uptobox.com/api/link'
-}
+};
 
 let addFile = (url, xfss) => axios.post(`${url}?add-to-account`, null, {
     headers: {'Cookie': `xfss=${xfss}`},
@@ -55,13 +55,13 @@ let getStreamingLink = options => axios.get(`${urls.stream}?${querystring.string
 
 let list = options => axios.get(`${urls.files}?${querystring.stringify(options)}`);
 
-let updateFileProperties = ({token, file_code, new_name, description, password, public}) => axios({
+let updateFile = ({token, file_code, new_name, description, password, public}) => axios({
     method: 'PATCH',
     url: urls.files,
     data: {token, file_code, new_name, description, password, public}
 });
 
-let updateFilesPublicProperty = (token, file_codes, public) => axios({
+let updateFilesPublic = (token, file_codes, public) => axios({
     method: 'PATCH',
     url: urls.files,
     data: {token, file_codes, public}
@@ -109,4 +109,4 @@ let deleteFolder = (token, fld_id) => axios({
     data: {token, fld_id}
 });
 
-module.exports = { addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, list, updateFileProperties, updateFilesPublicProperty, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder, getStreamingLink };
+module.exports = { addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder };
