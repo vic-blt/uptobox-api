@@ -3,6 +3,7 @@ const querystring = require('querystring');
 
 const urls = {
     files:    'https://uptobox.com/api/user/files',
+    export:   'https://uptobox.com/api/user/files/all',
     account:  'https://uptobox.com/api/user/me',
     settings: 'https://uptobox.com/api/user/settings',
     lock:     'https://uptobox.com/api/user/securityLock',
@@ -13,7 +14,9 @@ const urls = {
     download: 'https://uptobox.com/api/link'
 };
 
-let addFile = (url, xfss) => axios.post(`${url}?add-to-account`, null, {
+let exportAll = token => axios.get(`${urls.export}?token=${token}`);
+
+let addFile = (file_code, xfss) => axios.post(`https://uptobox.com/${file_code}?add-to-account`, null, {
     headers: {'Cookie': `xfss=${xfss}`},
     withCredentials: true
 });
@@ -106,10 +109,10 @@ let deleteFiles = (token, file_codes) => axios({
     data: {token, file_codes}
 });
 
-let deleteFolder = (token, fld_id) => axios({
+let deleteFolder = (token, fld_id, force = false) => axios({
     method: 'DELETE',
     url: urls.files,
-    data: {token, fld_id}
+    data: {token, fld_id, ...force && {force}}
 });
 
-module.exports = { addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, validatePin, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder };
+module.exports = { exportAll, addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, validatePin, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder };

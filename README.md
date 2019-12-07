@@ -17,30 +17,34 @@ Retrieve your API token from your Uptobox account : [How to find my API token ?]
 - Get download link :
 
   ```js
-  let getDownloadLink = async file_code => (await uptobox.getDownloadLink({
+  let getDownloadLink = async file_code => await uptobox.getDownloadLink({
       token: '<YOUR_API_TOKEN>',
-      file_code: file_code
-  })).data.data.dlLink;
+      file_code: '<FILE_CODE>'
+  }).then(({data: {data: {dlLink}}}) => dlLink);
   ```
 
 - Get streaming links :
 
   ```js
-  let getStreamingLink = async file_code => (await uptobox.getStreamingLink({
+  let getStreamingLink = async file_code => await uptobox.getStreamingLink({
       token: '<YOUR_API_TOKEN>',
-      file_code: file_code
-  })).data.data.streamLinks;
+      file_code: '<FILE_CODE>'
+  }).then(({data: {data: {streamLinks}}}) => streamLinks);
   ```
   
 - See [Uptobox-CLI](https://github.com/vic-blt/uptobox-cli)
 
 ## Methods
 
+- `exportAll`
+
 - [`list`](https://docs.uptobox.com/?javascript#retrieve-files-and-folders)
 
 - [`getDownloadLink`](https://docs.uptobox.com/?javascript#generate-a-download-link)
 
 - [`getStreamingLink`](https://docs.uptobox.com/?javascript#get-a-pin)
+
+- `validatePin`
 
 - [`getUserData`](https://docs.uptobox.com/?javascript#retrieve-user-data)
 
