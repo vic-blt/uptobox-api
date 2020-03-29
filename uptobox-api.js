@@ -11,7 +11,8 @@ const urls = {
     voucher:  'https://uptobox.com/api/user/createVoucher',
     pin:      'https://uptobox.com/api/user/pin/validate',
     stream:   'https://uptobox.com/api/streaming',
-    download: 'https://uptobox.com/api/link'
+    download: 'https://uptobox.com/api/link',
+    upload:   'https://uptobox.com/api/upload'
 };
 
 let exportAll = token => axios.get(`${urls.export}?token=${token}`);
@@ -115,4 +116,17 @@ let deleteFolder = (token, fld_id, force = false) => axios({
     data: {token, fld_id, ...force && {force}}
 });
 
-module.exports = { exportAll, addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, validatePin, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder };
+let getUploadUrl = token => axios({
+    method: 'GET',
+    url: urls.upload,
+    data: {token}
+});
+
+let uploadFile = (url, data, headers) => axios({
+    method: 'POST',
+    url,
+    data,
+    headers
+});
+
+module.exports = { exportAll, addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, validatePin, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder, getUploadUrl, uploadFile };

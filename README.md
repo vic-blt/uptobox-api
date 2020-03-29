@@ -14,24 +14,6 @@ Retrieve your API token from your Uptobox account : [How to find my API token ?]
 
 ## Examples
 
-- Get download link :
-
-  ```js
-  let getDownloadLink = async file_code => await uptobox.getDownloadLink({
-      token: '<YOUR_API_TOKEN>',
-      file_code: '<FILE_CODE>'
-  }).then(({data: {data: {dlLink}}}) => dlLink);
-  ```
-
-- Get streaming links :
-
-  ```js
-  let getStreamingLink = async file_code => await uptobox.getStreamingLink({
-      token: '<YOUR_API_TOKEN>',
-      file_code: '<FILE_CODE>'
-  }).then(({data: {data: {streamLinks}}}) => streamLinks);
-  ```
-  
 - See [Uptobox-CLI](https://github.com/vic-blt/uptobox-cli)
 
 ## Methods
@@ -78,6 +60,7 @@ Retrieve your API token from your Uptobox account : [How to find my API token ?]
 
 - [`deleteFolder`](https://docs.uptobox.com/?javascript#delete-a-folder)
 
+- [`uploadFile`](https://docs.uptobox.com/?javascript#upload)
 
 ## Documentations
 
