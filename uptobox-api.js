@@ -12,7 +12,8 @@ const urls = {
     pin:      'https://uptobox.com/api/user/pin/validate',
     stream:   'https://uptobox.com/api/streaming',
     download: 'https://uptobox.com/api/link',
-    upload:   'https://uptobox.com/api/upload'
+    upload:   'https://uptobox.com/api/upload',
+    info:     'https://uptobox.com/api/link/info'
 };
 
 let exportAll = token => axios.get(`${urls.export}?token=${token}`);
@@ -129,4 +130,9 @@ let uploadFile = (url, data, headers) => axios({
     headers
 });
 
-module.exports = { exportAll, addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, validatePin, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder, getUploadUrl, uploadFile };
+let getFilesDetails = file_codes => axios({
+    method: 'GET',
+    url: `${urls.info}?fileCodes=${file_codes}`
+});
+
+module.exports = { exportAll, addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, validatePin, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder, getUploadUrl, uploadFile, getFilesDetails };

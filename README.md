@@ -62,6 +62,8 @@ Retrieve your API token from your Uptobox account : [How to find my API token ?]
 
 - [`uploadFile`](https://docs.uptobox.com/?javascript#upload)
 
+- [`getFilesDetails`](https://docs.uptobox.com/?javascript#retrieve-file-informations)
+
 ## Documentations
 
 - [Uptobox API Docs](https://docs.uptobox.com/)
