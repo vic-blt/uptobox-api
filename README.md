@@ -64,6 +64,8 @@ Retrieve your API token from your Uptobox account : [How to find my API token ?]
 
 - [`getFilesDetails`](https://docs.uptobox.com/?javascript#retrieve-file-informations)
 
+- [`getPublicFolderContent`](https://docs.uptobox.com/?javascript#retrieve-files-in-public-folder)
+
 ## Documentations
 
 - [Uptobox API Docs](https://docs.uptobox.com/)

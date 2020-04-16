@@ -5,7 +5,7 @@
   },
   "name": "uptobox-api",
   "description": "Node library for Uptobox's API",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "uptobox-api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
