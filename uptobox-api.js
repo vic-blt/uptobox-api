@@ -14,15 +14,13 @@ const urls = {
     download: 'https://uptobox.com/api/link',
     upload:   'https://uptobox.com/api/upload',
     info:     'https://uptobox.com/api/link/info',
-    public:   'https://uptobox.com/api/user/public'
+    public:   'https://uptobox.com/api/user/public',
+    add:      'https://uptobox.com/api/user/file/alias'
 };
 
 let exportAll = token => axios.get(`${urls.export}?token=${token}`);
 
-let addFile = (file_code, xfss) => axios.post(`https://uptobox.com/${file_code}?add-to-account`, null, {
-    headers: {'Cookie': `xfss=${xfss}`},
-    withCredentials: true
-});
+let addFile = (token, file_code) => axios.get(`${urls.add}?token=${token}&file_code=${file_code}`);
 
 let getUserData = token => axios.get(`${urls.account}?token=${token}`);
 
