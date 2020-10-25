@@ -1,11 +1,10 @@
 {
   "dependencies": {
-    "axios": "^0.19.2",
-    "querystring": "^0.2.0"
+    "got": "^11.8.0"
   },
   "name": "uptobox-api",
   "description": "Node library for Uptobox's API",
-  "version": "1.2.4",
+  "version": "2.0.0",
   "main": "uptobox-api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

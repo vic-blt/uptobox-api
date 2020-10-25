@@ -72,5 +72,4 @@ Retrieve your API token from your Uptobox account : [How to find my API token ?]
 
 ## Dependencies
 
-- [querystring](https://www.npmjs.com/package/querystring)
-- [axios](https://www.npmjs.com/package/axios)
+- [got](https://www.npmjs.com/package/got)

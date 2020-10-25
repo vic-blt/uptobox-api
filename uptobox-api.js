@@ -1,5 +1,4 @@
-const axios = require('axios');
-const querystring = require('querystring');
+const got = require('got')
 
 const urls = {
     files:    'https://uptobox.com/api/user/files',
@@ -16,127 +15,294 @@ const urls = {
     info:     'https://uptobox.com/api/link/info',
     public:   'https://uptobox.com/api/user/public',
     add:      'https://uptobox.com/api/user/file/alias'
-};
+}
 
-let exportAll = token => axios.get(`${urls.export}?token=${token}`);
+/**
+ * Get a list of all files on your account
+ * @param {string} token
+ * @returns Promise
+ */
+function exportAll(token) {
+    return got(urls.export, {searchParams: {token}}).json()
+}
 
-let addFile = (token, file_code) => axios.get(`${urls.add}?token=${token}&file_code=${file_code}`);
+/**
+ * Add an uptobox file to your account
+ * @param {string} token
+ * @param {string} file_code
+ * @returns Promise
+ */
+function addFile(token, file_code) {
+    return got(urls.add, {searchParams: {token, file_code}}).json()
+}
 
-let getUserData = token => axios.get(`${urls.account}?token=${token}`);
+/**
+ * Get your account's details
+ * @param {string} token
+ * @returns Promise
+ */
+function getUserData(token) {
+    return got(urls.account, {searchParams: {token}}).json()
+}
 
-let setSSL = (token, ssl) => axios({
-    method: 'PATCH',
-    url: urls.settings,
-    data: {token, ssl}
-});
+/**
+ * <b>Requires a premium account</b>
+ * <br>Force https protocol when downloading
+ * @param {string} token
+ * @param {(0|1)} ssl
+ * @returns Promise
+ */
+function setSSL(token, ssl) {
+    return got.patch(urls.settings, {json: {token, ssl}}).json()
+}
 
-let setDirectDL = (token, directDownload) => axios({
-    method: 'PATCH',
-    url: urls.settings,
-    data: {token, directDownload}
-});
+/**
+ * <b>Requires a premium account</b>
+ * <br>Trigger an immediate download when visiting a download link
+ * @param {string} token
+ * @param {(0|1)} directDownload
+ * @returns Promise
+ */
+function setDirectDL(token, directDownload) {
+    return got.patch(urls.settings, {json: {token, directDownload}}).json()
+}
 
-let setSecurityLock = (token, securityLock) => axios({
-    method: 'PATCH',
-    url: urls.lock,
-    data: {token, securityLock}
-});
+/**
+ * <b>Requires a premium account</b>
+ * <br>Prevent editing of your account's email
+ * @param {string} token
+ * @param {(0|1)} securityLock
+ * @returns Promise
+ */
+function setSecurityLock(token, securityLock) {
+    return got.patch(urls.lock, {json: {token, securityLock}}).json()
+}
 
-let convertPoints = (token, points) => axios({
-    method: 'POST',
-    url: urls.convert,
-    data: {token, points}
-});
+/**
+ * Convert your points into additional premium time
+ * | Points  | Premium days |
+ * | :------ | :----------  |
+ * | 10      | 30           |
+ * | 25      | 90           |
+ * | 50      | 180          |
+ * | 100     | 365          |
+ * @param {string} token
+ * @param {(10|25|50|100)} points
+ * @returns Promise
+ */
+function convertPoints(token, points) {
+    return got.post(urls.convert, {json: {token, points}}).json()
+}
 
-let createVoucher = (token, time, quantity) => axios({
-    method: 'POST',
-    url: urls.voucher,
-    data: {token, time, quantity}
-});
+/**
+ * Create a voucher
+ * @param {string} token
+ * @param {('30d'|'365d'|'730d')} time
+ * @param {number} quantity
+ * @returns Promise
+ */
+function createVoucher(token, time, quantity) {
+    return got.post(urls.voucher, {json: {token, time, quantity}}).json()
+}
 
-let getDownloadLink = options => axios.get(`${urls.download}?${querystring.stringify(options)}`);
+/**
+ * Get a download link for an uptobox file
+ * @param {object} options
+ * @param {string} options.token
+ * @param {string} options.file_code
+ * @param {string} [options.waitingToken] - Only required for <b>non premium</b> accounts
+ * @returns Promise
+ */
+function getDownloadLink(options) {
+    return got(urls.download, {searchParams: options}).json()
+}
 
-let getStreamingLink = options => axios.get(`${urls.stream}?${querystring.stringify(options)}`);
+/**
+ * Get streaming links for an uptobox file
+ * @param {object} options
+ * @param {string} options.token
+ * @param {string} options.file_code
+ * @param {string} options.pin - Only required for <b>non premium</b> accounts
+ * @param {string} options.check - Only required for <b>non premium</b> accounts
+ * @returns Promise
+ */
+function getStreamingLink(options) {
+    return got(urls.stream, {searchParams: options}).json()
+}
 
-let validatePin = (token, pin) => axios.post(`${urls.pin}?token=${token}`, {pin});
+/**
+ * Validate an uptobox pin code
+ * @param {string} token
+ * @param {string} pin
+ * @returns Promise
+ */
+function validatePin(token, pin) {
+    return got.post(urls.pin, {
+        searchParams: {token},
+        json: {pin}
+    }).json()
+}
 
-let list = options => axios.get(`${urls.files}?${querystring.stringify(options)}`);
+/**
+ * List files
+ * @param {object} options
+ * @param {string} options.token
+ * @param {('file'|'folder')} options.type
+ * @param {string} options.path
+ * @param {number} options.limit - From 1 to 100
+ * @param {number} options.offset
+ * @param {('file_name'|'file_size'|'file_created'|'file_downloads'|'transcoded')} options.orderBy
+ * @param {('asc'|'desc')} options.dir
+ * @param {string} options.search
+ * @param {('file_name'|'file_size'|'file_created'|'file_downloads'|'transcoded')} options.searchField
+ * @returns Promise
+ */
+function list(options) {
+    return got(urls.files, {searchParams: options}).json()
+}
 
-let updateFile = ({token, file_code, new_name, description, password, public}) => axios({
-    method: 'PATCH',
-    url: urls.files,
-    data: {token, file_code, new_name, description, password, public}
-});
+/**
+ * Update a file details
+ * @param {object} options
+ * @param {string} options.token
+ * @param {string} options.file_code
+ * @param {string} [options.new_name]
+ * @param {string} [options.description]
+ * @param {string} [options.password]
+ * @param {(0|1)} [options.public]
+ * @returns Promise
+ */
+function updateFile(options) {
+    return got.patch(urls.files, {json: options}).json()
+}
 
-let updateFilesPublic = (token, file_codes, public) => axios({
-    method: 'PATCH',
-    url: urls.files,
-    data: {token, file_codes, public}
-});
+/**
+ * Update files' public status
+ * @param {string} token
+ * @param {string} file_codes
+ * @param {(0|1)} public
+ * @returns Promise
+ */
+function updateFilesPublic(token, file_codes, public) {
+    return got.patch(urls.files, {json: {token, file_codes, public}}).json()
+}
 
-let moveFolder = (token, fld_id, destination_fld_id) => axios({
-    method: 'PATCH',
-    url: urls.files,
-    data: {token, fld_id, destination_fld_id, action: 'move'}
-});
+/**
+ * Move a folder to another folder
+ * @param {string} token
+ * @param {number} fld_id
+ * @param {number} destination_fld_id
+ * @returns Promise
+ */
+function moveFolder(token, fld_id, destination_fld_id) {
+    return got.patch(urls.files, {json: {token, fld_id, destination_fld_id, action: 'move'}}).json()
+}
 
-let moveFiles = (token, file_codes, destination_fld_id) => axios({
-    method: 'PATCH',
-    url: urls.files,
-    data: {token, file_codes, destination_fld_id, action: 'move'}
-});
+/**
+ * Move file(s) to a folder
+ * @param {string} token
+ * @param {string} file_codes
+ * @param {number} destination_fld_id
+ * @returns Promise
+ */
+function moveFiles(token, file_codes, destination_fld_id) {
+    return got.patch(urls.files, {json: {token, file_codes, destination_fld_id, action: 'move'}}).json()
+}
 
-let copyFiles = (token, file_codes, destination_fld_id) => axios({
-    method: 'PATCH',
-    url: urls.files,
-    data: {token, file_codes, destination_fld_id, action: 'copy'}
-});
+/**
+ * Copy file(s) to a folder
+ * @param {string} token
+ * @param {string} file_codes
+ * @param {number} destination_fld_id
+ * @returns Promise
+ */
+function copyFiles(token, file_codes, destination_fld_id) {
+    return got.patch(urls.files, {json: {token, file_codes, destination_fld_id, action: 'copy'}}).json()
+}
 
-let renameFolder = (token, fld_id, new_name) => axios({
-    method: 'PATCH',
-    url: urls.files,
-    data: {token, fld_id, new_name}
-});
+/**
+ * Rename a folder
+ * @param {string} token
+ * @param {number} fld_id
+ * @param {string} new_name
+ * @returns Promise
+ */
+function renameFolder(token, fld_id, new_name) {
+    return got.patch(urls.files, {json: {token, fld_id, new_name}}).json()
+}
 
-let createFolder = (token, path, name) => axios({
-    method: 'PUT',
-    url: urls.files,
-    data: {token, path, name}
-});
+/**
+ * Create a folder
+ * @param {string} token
+ * @param {string} path
+ * @param {string} name
+ * @returns Promise
+ */
+function createFolder(token, path, name) {
+    return got.put(urls.files, {json: {token, path, name}}).json()
+}
 
-let deleteFiles = (token, file_codes) => axios({
-    method: 'DELETE',
-    url: urls.files,
-    data: {token, file_codes}
-});
+/**
+ * Delete file(s)
+ * @param {string} token
+ * @param {string} file_codes
+ * @returns Promise
+ */
+function deleteFiles(token, file_codes) {
+    return got.delete(urls.files, {json: {token, file_codes}}).json()
+}
 
-let deleteFolder = (token, fld_id, force = false) => axios({
-    method: 'DELETE',
-    url: urls.files,
-    data: {token, fld_id, ...force && {force}}
-});
+/**
+ * Delete a folder
+ * @param {string} token
+ * @param {number} fld_id
+ * @param {boolean} force
+ * @returns Promise
+ */
+function deleteFolder(token, fld_id, force = false) {
+    return got.delete(urls.files, {json: {token, fld_id, ...force && {force}}}).json()
+}
 
-let getUploadUrl = token => axios({
-    method: 'GET',
-    url: urls.upload,
-    data: {token}
-});
+/**
+ * Get an URL to which you can upload data
+ * @param {string} token
+ * @returns Promise
+ */
+function getUploadUrl(token) {
+    return got(urls.upload, {searchParams: {token}}).json()
+}
 
-let uploadFile = (url, data, headers) => axios({
-    method: 'POST',
-    url,
-    data,
-    headers
-});
+/**
+ * Upload a file
+ * @param {string} url - An URL generated by {@link getUploadUrl}
+ * @param {FormData} body - Data to upload
+ * @returns Promise
+ */
+function uploadFile(url, body) {
+    return got.post(url, {body})
+}
 
-let getFilesDetails = file_codes => axios({
-    method: 'GET',
-    url: `${urls.info}?fileCodes=${file_codes}`
-});
+/**
+ * Get files details
+ * @param {string} fileCodes - One or multiple file codes separated by ',' (up to 100 items)
+ * <br>For each file code provided, you can add a password separated by ':'
+ * <br>For example : filecode1:password1,filecode2:password2
+ * @returns Promise
+ */
+function getFilesDetails(fileCodes) {
+    return got(urls.info, {searchParams: {fileCodes}}).json()
+}
 
-let getPublicFolderContent = options => axios({
-    method: 'GET',
-    url: `${urls.public}?${querystring.stringify(options)}`
-});
+/**
+ * Get files from public folder
+ * @param {number} folder - Folder id
+ * @param {string} hash - Folder hash
+ * @param {number} limit - Number of files to retrieve
+ * @param {number} offset - Retrieve from the specified offset
+ * @returns Promise
+ */
+function getPublicFolderContent(folder, hash, limit, offset) {
+    return got(urls.public, {searchParams: {folder, hash, limit, offset}}).json()
+}
 
-module.exports = { exportAll, addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, validatePin, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder, getUploadUrl, uploadFile, getFilesDetails, getPublicFolderContent };
+module.exports = { exportAll, addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, validatePin, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder, getUploadUrl, uploadFile, getFilesDetails, getPublicFolderContent }
