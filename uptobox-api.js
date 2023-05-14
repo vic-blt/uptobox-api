@@ -58,13 +58,34 @@ function setSSL(token, ssl) {
 
 /**
  * <b>Requires a premium account</b>
- * <br>Trigger an immediate download when visiting a download link
+ * <br>Trigger an immediate download when visiting an uptobox download link
  * @param {string} token
  * @param {(0|1)} directDownload
  * @returns Promise
  */
 function setDirectDL(token, directDownload) {
     return got.patch(urls.settings, {json: {token, directDownload}}).json()
+}
+
+/**
+ * <b>Requires a premium account</b>
+ * <br>Show the UTS player miniature when visiting an uptobox download link
+ * @param {string} token
+ * @param {(0|1)} miniatureUts
+ * @returns Promise
+ */
+function setUptostreamMiniature(token, miniatureUts) {
+    return got.patch(urls.settings, {json: {token, miniatureUts}}).json()
+}
+
+/**
+ * Send you an email when your files are removed from uptobox
+ * @param {string} token
+ * @param {(0|1)} notifDeletions
+ * @returns Promise
+ */
+function setDeletionNotification(token, notifDeletions) {
+    return got.patch(urls.settings, {json: {token, notifDeletions}}).json()
 }
 
 /**
@@ -153,8 +174,11 @@ function validatePin(token, pin) {
  * @param {number} options.offset
  * @param {('file_name'|'file_size'|'file_created'|'file_downloads'|'transcoded')} options.orderBy
  * @param {('asc'|'desc')} options.dir
- * @param {string} options.search
+ * @param {string} options.search - Search content if searchField is provided
  * @param {('file_name'|'file_size'|'file_created'|'file_downloads'|'transcoded')} options.searchField
+ * @param {(0|1)} options.exactSearch - Search should match with the exact value only
+ * @param {(0|1)} options.currentFolderSearch - Search in current folder only
+ * @param {(0|1)} options.oldSearch - Use old search engine
  * @returns Promise
  */
 function list(options) {
@@ -305,4 +329,4 @@ function getPublicFolderContent(folder, hash, limit, offset) {
     return got(urls.public, {searchParams: {folder, hash, limit, offset}}).json()
 }
 
-module.exports = { exportAll, addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, validatePin, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder, getUploadUrl, uploadFile, getFilesDetails, getPublicFolderContent }
+module.exports = { exportAll, addFile, getUserData, setSSL, setDirectDL, setSecurityLock, convertPoints, createVoucher, getDownloadLink, getStreamingLink, validatePin, list, updateFile, updateFilesPublic, moveFolder, moveFiles, copyFiles, renameFolder, createFolder, deleteFiles, deleteFolder, getUploadUrl, uploadFile, getFilesDetails, getPublicFolderContent, setUptostreamMiniature, setDeletionNotification }

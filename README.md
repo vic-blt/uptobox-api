@@ -46,6 +46,10 @@ Retrieve your API token from your Uptobox account : [How to find my API token ?]
 
 - [`setDirectDL`](https://docs.uptobox.com/?javascript#direct-download)
 
+- [`setUptostreamMiniature`](https://docs.uptobox.com/?javascript#miniature-uts)
+
+- [`setDeletionNotification`](https://docs.uptobox.com/?javascript#miniature-uts-2)
+
 - [`moveFolder`](https://docs.uptobox.com/?javascript#move-a-folder-to-another-location)
 
 - [`moveFiles`](https://docs.uptobox.com/?javascript#move-one-or-multiple-files-to-another-location)
